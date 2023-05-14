@@ -1,0 +1,5 @@
+node_modules
+.git
+
+# EC2 instance key
+key
