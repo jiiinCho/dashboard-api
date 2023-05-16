@@ -25,9 +25,11 @@ describe('User resolvers', () => {
   });
 
   it('creates new user', async () => {
+    const unique = new Date().getTime();
+
     const user = {
       name: 'Ada Okoro',
-      email: 'ada@mail.com',
+      email: `ada${unique}@mail.com`,
       password: 'helloWorld',
     };
 
