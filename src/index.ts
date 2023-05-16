@@ -1,19 +1,19 @@
-import 'reflect-metadata';
-import express from 'express';
-import { buildSchema } from 'type-graphql';
-import cookieParser from 'cookie-parser';
-import { ApolloServer } from 'apollo-server-express';
+import "reflect-metadata";
+import express from "express";
+import { buildSchema } from "type-graphql";
+import cookieParser from "cookie-parser";
+import { ApolloServer } from "apollo-server-express";
 import {
   ApolloServerPluginLandingPageGraphQLPlayground,
   ApolloServerPluginLandingPageProductionDefault,
-} from 'apollo-server-core';
-import { resolvers } from './resolvers';
-import { connectToMongo } from './utils/mongo';
-import { verifyJwt } from './utils/jwt';
-import { User } from './schema/user.schema';
-import Context from './types/context';
-import authChecker from './utils/authChecker';
-import config from './config';
+} from "apollo-server-core";
+import { resolvers } from "./resolvers";
+import { connectToMongo } from "./utils/mongo";
+import { verifyJwt } from "./utils/jwt";
+import { User } from "./schema/user.schema";
+import Context from "./types/context";
+import authChecker from "./utils/authChecker";
+import config from "./config";
 
 async function init() {
   const schema = await buildSchema({
@@ -38,7 +38,7 @@ async function init() {
       return context;
     },
     plugins: [
-      process.env.NODE_ENV === 'production'
+      process.env.NODE_ENV === "production"
         ? ApolloServerPluginLandingPageProductionDefault()
         : ApolloServerPluginLandingPageGraphQLPlayground(),
     ],

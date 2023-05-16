@@ -10,6 +10,7 @@ import { AsQueryMethod } from "@typegoose/typegoose/lib/types";
 import bcrypt from "bcrypt";
 import { IsEmail, MaxLength, MinLength } from "class-validator";
 import { Field, InputType, ObjectType } from "type-graphql";
+import { IsEmailAlreadyExist } from "./decorator/isEmailAlreadyExist";
 
 function findByEmail(
   this: ReturnModelType<typeof User, QueryHelpers>,
@@ -29,9 +30,7 @@ interface QueryHelpers {
   }
 
   const salt = await bcrypt.genSalt(10);
-
   const hash = await bcrypt.hashSync(this.password, salt);
-
   this.password = hash;
 })
 @index({ email: 1 })
@@ -61,6 +60,7 @@ export class CreateUserInput {
   name: string;
 
   @IsEmail()
+  @IsEmailAlreadyExist({ message: "User already exist" })
   @Field(() => String)
   email: string;
 
@@ -71,6 +71,25 @@ export class CreateUserInput {
     message: "password must not be longer than 50 characters",
   })
   @Field(() => String)
+  password: string;
+}
+
+@InputType()
+export class UpdateUserInput {
+  @Field(() => String, { nullable: true })
+  name: string;
+
+  @IsEmail()
+  @Field(() => String, { nullable: true })
+  email: string;
+
+  @MinLength(6, {
+    message: "password must be at least 6 characters long",
+  })
+  @MaxLength(50, {
+    message: "password must not be longer than 50 characters",
+  })
+  @Field(() => String, { nullable: true })
   password: string;
 }
 
